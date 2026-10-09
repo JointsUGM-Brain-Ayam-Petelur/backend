@@ -20,8 +20,6 @@ import (
 
 func Start() {
 	r := chi.NewRouter()
-	authHandler := auth.NewHandler()
-	r.Get("/test", authHandler.Test)
 
 	r.Use(cors.Handler(cors.Options{
 		AllowedOrigins:   []string{"https://docs.hearable.nighttealabs.tech", "http://localhost:3000"},
@@ -31,6 +29,9 @@ func Start() {
 		AllowCredentials: false,
 		MaxAge:           300,
 	}))
+
+	authHandler := auth.NewHandler()
+	r.Get("/test", authHandler.Test)
 
 	logger := slog.New(slog.NewJSONHandler(os.Stdout, nil))
 
