@@ -4,7 +4,7 @@ info:
   version: 1.0.1
   description: Documentation for the Hearable API
 servers:
-  - url: https://api.hearable.nighttealabs.com
+  - url: https://api.hearable.nighttealabs.tech
     description: API server for Hearable
   - url: http://localhost:8080
     description: Local development server

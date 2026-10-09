@@ -7,7 +7,7 @@ on:
       - main
     paths:
       - "./migrations/**"
-      - ".github/workflows/migrate.yml"
+      - ".github/workflows/db-migration.yaml"
 
   workflow_dispatch:
 
