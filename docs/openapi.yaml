@@ -1,0 +1,26 @@
+openapi: 3.0.3
+info:
+  title: Hearable API Documentation
+  version: 1.0.1
+  description: Documentation for the Hearable API
+servers:
+  - url: https://api.hearable.nighttealabs.com
+    description: API server for Hearable
+  - url: http://localhost:8080
+    description: Local development server
+paths:
+  /test:
+    get:
+      summary: Test endpoint
+      description: Returns a simple test message.
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Hello, World!

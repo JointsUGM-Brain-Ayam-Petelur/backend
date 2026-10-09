@@ -1,0 +1,36 @@
+
+name: Database Migrations
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "backend/migrations/**"
+      - ".github/workflows/migrate.yml"
+
+  workflow_dispatch:
+
+concurrency:
+  group: supabase-production-migrations
+  cancel-in-progress: false
+
+jobs:
+  migrate:
+    name: Apply database migrations
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Apply pending migrations
+        env:
+          DB_URL: postgresql://${{ secrets.DB_USER }}:${{ secrets.DB_PASSWORD }}@${{ secrets.DB_HOST }}:${{ secrets.DB_PORT }}/${{ secrets.DB_NAME }}
+        run: |
+          docker run --rm \
+            -v "$GITHUB_WORKSPACE/backend/migrations:/migrations:ro" \
+            migrate/migrate:v4.18.3 \
+            -path=/migrations \
+            -database "$DB_URL" \
+            up
