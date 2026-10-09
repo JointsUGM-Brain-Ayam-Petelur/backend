@@ -7,6 +7,7 @@ import (
 	"context"
 
 	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/cors"
 
 	"os"
 	"os/signal"
@@ -21,6 +22,15 @@ func Start() {
 	r := chi.NewRouter()
 	authHandler := auth.NewHandler()
 	r.Get("/test", authHandler.Test)
+
+	r.Use(cors.Handler(cors.Options{
+		AllowedOrigins:   []string{"https://docs.hearable.nighttealabs.tech", "http://localhost:3000"},
+		AllowedMethods:   []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"},
+		AllowedHeaders:   []string{"Accept", "Authorization", "Content-Type", "X-CSRF-Token"},
+		ExposedHeaders:   []string{"Link"},
+		AllowCredentials: false,
+		MaxAge:           300,
+	}))
 
 	logger := slog.New(slog.NewJSONHandler(os.Stdout, nil))
 
